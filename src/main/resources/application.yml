@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: examination
+  datasource:
+    driver-class-name: org.mysql.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/travellings
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySqlDialect
+        show_sql: true
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: molyhuce@gmail.com
+    password: imfa npfe qyig bxks
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: 3000
+auth:
+  jwt_secret : "========================SECRET========================="
+  jwt_expiration : 604800000
+media:
+  img_path: "${user.home}${file.separator}Downloads${file.separator}images"
+  icon_path: "${user.home}${file.separator}Downloads${file.separator}images${file.separator}icons"
