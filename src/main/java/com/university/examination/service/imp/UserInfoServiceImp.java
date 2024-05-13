@@ -84,9 +84,7 @@ public class UserInfoServiceImp implements UserInfoService {
 
         res.setUsername(getUser(userInfo.getUserId()).getUsername());
         res.setCreatedAt(dateTimeToString(userInfo.getCreatedAt(), DATE_TIME_FORMAT));
-        res.setTotalPost(userInfoRepo.countMyPost(res.getUserId()));
-        res.setTotalReview(userInfoRepo.countMyReview(res.getUserId()));
-        res.setTotalVisit(userInfoRepo.countMyVisit(res.getUserId()));
+
         return res;
     }
 

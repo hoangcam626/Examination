@@ -1,6 +1,6 @@
 package com.university.examination.security;
 
-import com.travel.vietnamtravel.exception.CustomException;
+import com.university.examination.exception.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
