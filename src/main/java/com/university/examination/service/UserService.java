@@ -5,9 +5,11 @@ import com.university.examination.dto.user.sdi.UserRegisterSdi;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
 import com.university.examination.dto.user.sdo.UserRegisterSdo;
 import com.university.examination.entity.User;
+import org.springframework.stereotype.Service;
+
+@Service
 public interface UserService {
 
-    UserRegisterSdo register(UserRegisterSdi req);
 
     UserLoginSdo login (UserLoginSdi req);
 

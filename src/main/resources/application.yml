@@ -2,8 +2,8 @@ spring:
   application:
     name: examination
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/travellings
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/examination
     username: root
     password: 1234
   jpa:
@@ -11,7 +11,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySqlDialect
+        dialect: org.hibernate.dialect.MariaDBDialect
         show_sql: true
         format_sql: true
   servlet:

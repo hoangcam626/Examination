@@ -15,7 +15,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     private final UserRepo userRepository;
     public UserDetails loadUserByUsername(String username) {
 
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new CustomException("User not found with username: " + username);
         }

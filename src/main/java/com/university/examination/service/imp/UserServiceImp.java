@@ -2,6 +2,7 @@ package com.university.examination.service.imp;
 
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdi.UserRegisterSdi;
+import com.university.examination.dto.user.sdi.UserUpdatePassword;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
 import com.university.examination.dto.user.sdo.UserRegisterSdo;
 import com.university.examination.entity.User;
@@ -25,32 +26,32 @@ import static com.university.examination.util.DataUtil.copyProperties;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImp implements UserService {
+public class UserServiceImp implements UserService{
     private final UserRepo userRepo;
     private final UserInfoRepo userInfoRepo;
     private final PasswordEncoder encoder;
 
-    public UserRegisterSdo register(UserRegisterSdi req) {
-
-        if (userRepo.existsByEmail(req.getEmail())) {
-            throw new CustomException(ERROR_EXIT_EMAIL);
-        }
-
-        User user = copyProperties(req, User.class);
-        String password = encoder.encode(req.getPassword());
-        user.setPassword(password);
-        userRepo.save(user);
-        UserInfo userInfo = UserInfo.builder().userId(user.getId()).build();
-        userInfoRepo.save(userInfo);
-        return UserRegisterSdo.of(user.getId());
-    }
+//    public UserRegisterSdo register(UserRegisterSdi req) {
+//
+//        if (userRepo.existsByEmail(req.getEmail())) {
+//            throw new CustomException(ERROR_EXIT_EMAIL);
+//        }
+//
+//        User user = copyProperties(req, User.class);
+//        String password = encoder.encode(req.getPassword());
+//        user.setPassword(password);
+//        userRepo.save(user);
+//        UserInfo userInfo = UserInfo.builder().userId(user.getId()).build();
+//        userInfoRepo.save(userInfo);
+//        return UserRegisterSdo.of(user.getId());
+//    }
 
     public User getUser(Long id) {
 
         return userRepo.findById(id).orElseThrow(() -> new CustomException("Error: no use"));
     }
 
-    public void updatePassword(String prePassword, String password, Long userId) {
+    public void updatePassword(UserUpdatePassword req) {
 
         User user = this.getUser(userId);
 
@@ -67,7 +68,7 @@ public class UserServiceImp implements UserService {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        req.getEmail(),
+                        req.getUsername(),
                         req.getPassword()
                 )
         );

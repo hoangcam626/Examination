@@ -2,6 +2,7 @@ package com.university.examination.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -23,4 +24,7 @@ public class User extends AbstractAudit{
 
     @Column(name = "email")
     private String email;
+
+    @OneToOne(mappedBy = "user")
+    private UserInfo userInfo;
 }

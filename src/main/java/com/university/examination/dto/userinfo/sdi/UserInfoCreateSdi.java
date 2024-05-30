@@ -1,51 +1,66 @@
-package com.university.examination.dto.userinfo.sdo;
+package com.university.examination.dto.userinfo.sdi;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class UserInfoSelfSdo {
+public class UserInfoCreateSdi {
 
-    private Long imageId;
+    @NotNull
+    private MultipartFile image;
 
+    @NotNull
     private String fullName;
 
+    @NotNull
     private Integer gender;
 
+    @NotNull
     private LocalDate dateOfBirth;
 
+    @NotNull
     private String birthPlace;
 
+    @NotNull
     private String identifyNo;
 
+    @NotNull
     private LocalDate issueDate;
 
+    @NotNull
     private String issuePlace;
 
-    private Long frontImageId;
+    @NotNull
+    private MultipartFile frontImage;
 
-    private Long backImageId;
+    @NotNull
+    private MultipartFile backImage;
 
+    @NotNull
     private String email;
 
+    @NotNull
     private String phoneNumber;
 
+    @NotNull
     private String placeOfPermanent;
 
     private String receiverName;
 
+    @NotNull
     private String receiverPhone;
 
+    @NotNull
     private String parentPhone;
 
+    @NotNull
     private String receiverAddress;
 
+    @NotNull
     private Integer graduationYear;
-
-    private String createdAt;
 }
