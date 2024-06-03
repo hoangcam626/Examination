@@ -1,8 +1,6 @@
 package com.university.examination.util.password;
 
-import com.university.examination.util.password.PasswordCharacterSet;
-
-import static com.university.examination.constant.CharacterSet.*;
+import static com.university.examination.util.constant.CharacterSet.*;
 
 public enum SummerCharacterSets implements PasswordCharacterSet {
     ALPHA_UPPER(ALPHA_UPPER_CHARACTERS, 1),

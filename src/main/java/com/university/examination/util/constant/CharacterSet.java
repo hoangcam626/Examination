@@ -1,4 +1,4 @@
-package com.university.examination.constant;
+package com.university.examination.util.constant;
 
 public interface CharacterSet {
     char[] ALPHA_UPPER_CHARACTERS = {'A', 'B', 'C', 'D',

@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.university.examination.constant.Error.*;
+import static com.university.examination.util.constant.Error.*;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired

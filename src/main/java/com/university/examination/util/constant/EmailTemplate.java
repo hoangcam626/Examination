@@ -1,4 +1,4 @@
-package com.university.examination.constant;
+package com.university.examination.util.constant;
 
 public interface EmailTemplate {
     String TITLE_SENT_USER_ACCOUNT = "[DHXD] Thông báo tài khoản đăng ký dự thi vẽ tại DHXD";

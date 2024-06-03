@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor(staticName = "of")
-public class UserUpdatePassword {
+public class UpdatePasswordSdi {
     private Long id;
     private String prePassword;
     private String password;

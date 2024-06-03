@@ -1,7 +1,9 @@
 package com.university.examination.service;
 
+import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdi.UserRegisterSdi;
+import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
 import com.university.examination.dto.user.sdo.UserRegisterSdo;
 import com.university.examination.entity.User;
@@ -13,9 +15,7 @@ public interface UserService {
 
     UserLoginSdo login (UserLoginSdi req);
 
-    User getUser(Long id);
-
-    void updatePassword(String prePassword, String password, Long userId);
+    UpdatePasswordSdo updatePassword(UpdatePasswordSdi req);
 
     void delete(Long useId);
 }

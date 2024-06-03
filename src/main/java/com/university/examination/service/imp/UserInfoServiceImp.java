@@ -1,6 +1,6 @@
 package com.university.examination.service.imp;
 
-import com.university.examination.constant.EmailTemplate;
+import com.university.examination.util.constant.EmailTemplate;
 import com.university.examination.dto.userinfo.sdi.*;
 import com.university.examination.dto.userinfo.sdo.*;
 import com.university.examination.entity.User;
@@ -18,12 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.university.examination.constant.Error.*;
+import static com.university.examination.util.constant.Error.*;
 import static com.university.examination.util.DataUtil.copyProperties;
-import static com.university.examination.util.DataUtil.isNullObject;
 import static com.university.examination.util.DateTimeConvert.*;
 import static com.university.examination.util.DateTimeUtils.DATE_TIME_FORMAT;
 
