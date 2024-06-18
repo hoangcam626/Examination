@@ -1,4 +1,4 @@
-package com.university.examination.constant;
+package com.university.examination.util.constant;
 public interface Error {
     String ERROR_OPEN_IMAGE= "Error: can open image";
     String ERROR_FIND_IMAGE= "Error: No image";

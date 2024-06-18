@@ -1,6 +1,6 @@
 package com.university.examination.util.valid.aspect;
 
-import com.university.examination.constant.LabelKey;
+import com.university.examination.util.constant.LabelKey;
 import com.university.examination.exception.CustomException;
 import com.university.examination.util.valid.Validation;
 import jakarta.validation.ConstraintValidator;

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor(staticName = "of")
-public class UserInfoUpdateSdi {
+public class UserInfoCreateSdi {
 
     @NotNull
     private MultipartFile image;
@@ -25,6 +25,9 @@ public class UserInfoUpdateSdi {
 
     @NotNull
     private String birthPlace;
+
+    @NotNull
+    private String identifyNo;
 
     @NotNull
     private LocalDate issueDate;
