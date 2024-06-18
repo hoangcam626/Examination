@@ -27,9 +27,6 @@ public class UserInfoUpdateSdi {
     private String birthPlace;
 
     @NotNull
-    private String identifyNo;
-
-    @NotNull
     private LocalDate issueDate;
 
     @NotNull

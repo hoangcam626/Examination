@@ -57,8 +57,21 @@ public class UserInfoServiceImp implements UserInfoService {
     public UserInfoUpdateSdo update(UserInfoUpdateSdi req) {
         Long loginId = commonService.getIdLogin();
 
-        UserInfo userInfo = userInfoRepo.findByUserId(loginId);
-        userInfo = copyProperties(req, UserInfo.class);
+        UserInfo userInfo = getUser(loginId).getUserInfo();
+        userInfo.setFullName(req.getFullName());
+        userInfo.setDateOfBirth(req.getDateOfBirth());
+        userInfo.setBirthPlace(req.getBirthPlace());
+        userInfo.setGender(req.getGender());
+        userInfo.setIssueDate(req.getIssueDate());
+        userInfo.setIssuePlace(req.getIssuePlace());
+        userInfo.setEmail(req.getEmail());
+        userInfo.setGraduationYear(req.getGraduationYear());
+        userInfo.setParentPhone(req.getParentPhone());
+        userInfo.setPhoneNumber(req.getPhoneNumber());
+        userInfo.setPlaceOfPermanent(req.getPlaceOfPermanent());
+        userInfo.setReceiverAddress(req.getReceiverAddress());
+        userInfo.setReceiverName(req.getReceiverName());
+        userInfo.setReceiverPhone(req.getReceiverPhone());
         userInfo.setImageId(imageService.uploadFile(req.getImage()));
         userInfo.setFrontImageId(imageService.uploadFile(req.getFrontImage()));
         userInfo.setBackImageId(imageService.uploadFile(req.getBackImage()));

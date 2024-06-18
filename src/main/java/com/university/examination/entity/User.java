@@ -27,4 +27,10 @@ public class User extends AbstractAudit{
 
     @OneToOne(mappedBy = "user")
     private UserInfo userInfo;
+
+    @Column(name="check_info", columnDefinition = "")
+    private Boolean checkInfo;
+
+    @Column(name="check_pay")
+    private Boolean checkPay;
 }
