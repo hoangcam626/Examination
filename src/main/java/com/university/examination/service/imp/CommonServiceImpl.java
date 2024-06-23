@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CommonServiceImp implements CommonService {
+public class CommonServiceImpl implements CommonService {
 
     private final UserRepo userRepository;
 

@@ -3,6 +3,7 @@ package com.university.examination.service.imp;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
 import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
+import com.university.examination.dto.user.sdo.UserDeleteSdo;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
 import com.university.examination.entity.User;
 import com.university.examination.exception.CustomException;
@@ -18,13 +19,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.university.examination.util.constant.Error.*;
 import static com.university.examination.util.DataUtil.copyProperties;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImp implements UserService {
+@Transactional
+public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final UserInfoRepo userInfoRepo;
     private final PasswordEncoder encoder;
@@ -79,7 +82,10 @@ public class UserServiceImp implements UserService {
         return new UserLoginSdo(jwt, userDetails.getId(), userDetails.getUsername());
     }
 
-    public void delete(Long useId) {
-        userRepo.deleteById(useId);
+    public UserDeleteSdo delete(Long userId) {
+        User user = this.getUser(userId);
+        user.setStatus(2);
+        userRepo.save(user);
+        return UserDeleteSdo.of(Boolean.TRUE);
     }
 }

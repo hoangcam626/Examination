@@ -4,6 +4,7 @@ import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdi.UserRegisterSdi;
 import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
+import com.university.examination.dto.user.sdo.UserDeleteSdo;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
 import com.university.examination.dto.user.sdo.UserRegisterSdo;
 import com.university.examination.entity.User;
@@ -17,5 +18,5 @@ public interface UserService {
 
     UpdatePasswordSdo updatePassword(UpdatePasswordSdi req);
 
-    void delete(Long useId);
+    UserDeleteSdo delete(Long useId);
 }

@@ -33,4 +33,7 @@ public class User extends AbstractAudit{
 
     @Column(name="check_pay")
     private Boolean checkPay;
+
+    @Column(name = "role")
+    private String role;
 }

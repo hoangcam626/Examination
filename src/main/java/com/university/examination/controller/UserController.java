@@ -1,5 +1,6 @@
 package com.university.examination.controller;
 
+import com.university.examination.dto.common.pagination.PageInfo;
 import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
@@ -7,10 +8,12 @@ import com.university.examination.dto.userinfo.sdi.UserInfoCreateSdi;
 import com.university.examination.dto.userinfo.sdi.UserInfoSelfSdi;
 import com.university.examination.dto.userinfo.sdi.UserInfoUpdateSdi;
 import com.university.examination.dto.userinfo.sdo.UserInfoSelfSdo;
+import com.university.examination.dto.userinfo.sdo.UserInfoShortSelfSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoUpdateSdo;
 import com.university.examination.service.UserInfoService;
 import com.university.examination.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,8 +47,14 @@ public class UserController {
     public ResponseEntity<UserInfoUpdateSdo> update(UserInfoUpdateSdi req) {
         return ResponseEntity.ok(userInfoService.update(req));
     }
+
     @PostMapping("user/self")
-    public ResponseEntity<UserInfoSelfSdo> self(UserInfoSelfSdi req){
+    public ResponseEntity<UserInfoSelfSdo> self(UserInfoSelfSdi req) {
         return ResponseEntity.ok(userInfoService.self(req));
+    }
+
+    @PostMapping("user/users")
+    public ResponseEntity<Page<UserInfoShortSelfSdo>> getUsers(PageInfo page) {
+        return ResponseEntity.ok(userInfoService.getUsers(page));
     }
 }

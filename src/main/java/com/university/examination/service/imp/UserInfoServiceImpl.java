@@ -1,5 +1,6 @@
 package com.university.examination.service.imp;
 
+import com.university.examination.dto.common.pagination.PageInfo;
 import com.university.examination.util.constant.EmailTemplate;
 import com.university.examination.dto.userinfo.sdi.*;
 import com.university.examination.dto.userinfo.sdo.*;
@@ -14,6 +15,7 @@ import com.university.examination.service.ImageService;
 import com.university.examination.service.UserInfoService;
 import com.university.examination.util.password.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,7 @@ import static com.university.examination.util.DateTimeUtils.DATE_TIME_FORMAT;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserInfoServiceImp implements UserInfoService {
+public class UserInfoServiceImpl implements UserInfoService {
 
     private final UserRepo userRepo;
     private final UserInfoRepo userInfoRepo;
@@ -111,6 +113,10 @@ public class UserInfoServiceImp implements UserInfoService {
 //        UserInfo userInfo = userInfoRepo.findByUserId(req.getUserId());
 //        return UserInfoShortSelfSdo.of(userInfo.getUserId(), user.getUsername(), userInfo.getAvatarId());
 //    }
+    public Page<UserInfoShortSelfSdo> getUsers(PageInfo pageInfo){
+//        Pageable pageable = PageRequest.of(pageInfo.getCurrentPage(), pageInfo.getPageSize());
+        return userInfoRepo.getUsers(pageInfo);
+    }
 
     public UserInfo getUserInfo(Long userId) {
         return userInfoRepo.findByUserId(userId);
