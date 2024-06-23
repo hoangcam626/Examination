@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor(staticName = "of")
 public class UserInfoSelfSdo {
 
+    private Long id;
+
     private Long imageId;
 
     private String fullName;

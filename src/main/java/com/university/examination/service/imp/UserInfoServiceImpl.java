@@ -1,6 +1,8 @@
 package com.university.examination.service.imp;
 
 import com.university.examination.dto.common.pagination.PageInfo;
+import com.university.examination.dto.email.sdi.EmailTemplateSdi;
+import com.university.examination.util.constant.ERole;
 import com.university.examination.util.constant.EmailTemplate;
 import com.university.examination.dto.userinfo.sdi.*;
 import com.university.examination.dto.userinfo.sdo.*;
@@ -13,14 +15,18 @@ import com.university.examination.service.CommonService;
 import com.university.examination.service.EmailService;
 import com.university.examination.service.ImageService;
 import com.university.examination.service.UserInfoService;
+import com.university.examination.util.excel.ExcelHelper;
 import com.university.examination.util.password.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.university.examination.util.constant.Error.*;
 import static com.university.examination.util.DataUtil.copyProperties;
@@ -38,12 +44,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final CommonService commonService;
     private final EmailService emailService;
     private final PasswordEncoder encoder;
+
     public void create(UserInfoCreateSdi req) {
+
         PasswordGenerator pw = new PasswordGenerator(8, 12);
         String password = pw.generatePassword();
         User user = User.builder()
                 .username(req.getIdentifyNo())
-                .password(encoder.encode(password)).build();
+                .password(encoder.encode(password))
+                .role(ERole.ROLE_USER)
+                .build();
+
         UserInfo userInfo = copyProperties(req, UserInfo.class);
         userInfo.setImageId(imageService.uploadFile(req.getImage()));
         userInfo.setFrontImageId(imageService.uploadFile(req.getFrontImage()));
@@ -52,14 +63,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         userRepo.save(user);
         userInfoRepo.save(userInfo);
-        String send = EmailTemplate.BODY_SENT_USER_ACCOUNT + "\n Ten dang nhap: <Ma CCCD cua ban>" + "\n Mat khau: " + password + "\n" + EmailTemplate.TEXT_BOTTOM;
-        emailService.sendEmail(userInfo.getEmail(), EmailTemplate.TITLE_SENT_USER_ACCOUNT, send);
+        emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), user.getPassword()));
     }
 
     public UserInfoUpdateSdo update(UserInfoUpdateSdi req) {
-        Long loginId = commonService.getIdLogin();
 
+        Long loginId = commonService.getIdLogin();
         UserInfo userInfo = getUser(loginId).getUserInfo();
+
         userInfo.setFullName(req.getFullName());
         userInfo.setDateOfBirth(req.getDateOfBirth());
         userInfo.setBirthPlace(req.getBirthPlace());
@@ -78,51 +89,57 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setFrontImageId(imageService.uploadFile(req.getFrontImage()));
         userInfo.setBackImageId(imageService.uploadFile(req.getBackImage()));
         userInfo.setUpdatedAt(LocalDateTime.now());
+
         userInfoRepo.save(userInfo);
         return UserInfoUpdateSdo.of(Boolean.TRUE);
     }
 
-    //    public UserInfoUpdateSdo updateAvatar(UserInfoUpdateAvatarSdi req) {
-//        Long loginId = commonService.getIdLogin();
-//
-//        UserInfo userInfo = userInfoRepo.findByUserId(loginId);
-//
-//        if (userInfo.getAvatarId() != null) {
-//            imageService.delete(userInfo.getAvatarId());
-//        }
-//
-//        Long avatarId = imageService.uploadFile(req.getImage());
-//        userInfo.setAvatarId(avatarId);
-//
-//        userInfoRepo.save(userInfo);
-//
-//        return UserInfoUpdateSdo.of(Boolean.TRUE);
-//    }
-//
+    public UserInfoDeleteSdo delete(UserInfoDeleteSdi req) {
+        UserInfo userInfo = userInfoRepo.findByUserId(req.getUserId());
+        userInfo.setStatus(2);
+        userInfoRepo.save(userInfo);
+        return UserInfoDeleteSdo.of(Boolean.TRUE);
+    }
+
     public UserInfoSelfSdo self(UserInfoSelfSdi req) {
 
-        UserInfo userInfo = userInfoRepo.findByUserId(req.getUserId());
+        UserInfo userInfo = getUserInfo(req.getUserId());
         UserInfoSelfSdo res = copyProperties(userInfo, UserInfoSelfSdo.class);
 
         res.setCreatedAt(dateTimeToString(userInfo.getCreatedAt(), DATE_TIME_FORMAT));
         return res;
     }
 
-//    public UserInfoShortSelfSdo shortSelf(UserInfoSelfSdi req) {
-//        User user = userRepo.findById(req.getUserId()).orElseThrow(() -> new CustomException(ERROR_NOT_EXIT));
-//        UserInfo userInfo = userInfoRepo.findByUserId(req.getUserId());
-//        return UserInfoShortSelfSdo.of(userInfo.getUserId(), user.getUsername(), userInfo.getAvatarId());
-//    }
-    public Page<UserInfoShortSelfSdo> getUsers(PageInfo pageInfo){
-//        Pageable pageable = PageRequest.of(pageInfo.getCurrentPage(), pageInfo.getPageSize());
+    public UserInfoSelfSdo mySelf() {
+
+        Long loginId = commonService.getIdLogin();
+        UserInfo userInfo = getUser(loginId).getUserInfo();
+
+        UserInfoSelfSdo res = copyProperties(userInfo, UserInfoSelfSdo.class);
+        res.setCreatedAt(dateTimeToString(userInfo.getCreatedAt(), DATE_TIME_FORMAT));
+        return res;
+    }
+
+    public Page<UserInfoShortSelfSdo> getUsers(PageInfo pageInfo) {
         return userInfoRepo.getUsers(pageInfo);
     }
 
-    public UserInfo getUserInfo(Long userId) {
-        return userInfoRepo.findByUserId(userId);
+    public UserInfo getUserInfo(Long id) {
+        return userInfoRepo.findById(id).orElseThrow(()-> new CustomException(ERROR_NOT_EXIT));
     }
 
     public User getUser(Long id) {
         return userRepo.findById(id).orElseThrow(() -> new CustomException(ERROR_NOT_EXIT));
     }
+
+    public Page<UserInfoShortSelfSdo> search(UserInfoSearchSdi req, PageInfo pageInfo){
+        return userInfoRepo.search(req, pageInfo);
+    }
+    public ByteArrayInputStream loadFileExcel() {
+        List<UserInfoShortSelfSdo> users = userInfoRepo.getUsers();
+
+        ByteArrayInputStream in = ExcelHelper.tutorialsToExcel(users);
+        return in;
+    }
+
 }

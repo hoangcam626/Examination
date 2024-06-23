@@ -1,6 +1,7 @@
 package com.university.examination.service;
 
 import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
+import com.university.examination.dto.user.sdi.UserDeleteSdi;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdi.UserRegisterSdi;
 import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
@@ -18,5 +19,5 @@ public interface UserService {
 
     UpdatePasswordSdo updatePassword(UpdatePasswordSdi req);
 
-    UserDeleteSdo delete(Long useId);
+    UserDeleteSdo delete(UserDeleteSdi req);
 }

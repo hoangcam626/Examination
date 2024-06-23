@@ -1,16 +1,20 @@
 package com.university.examination.service.imp;
 
+import com.university.examination.dto.user.sdi.UserDeleteSdi;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
 import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
 import com.university.examination.dto.user.sdo.UserDeleteSdo;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
+import com.university.examination.dto.userinfo.sdi.UserInfoDeleteSdi;
 import com.university.examination.entity.User;
+import com.university.examination.entity.UserInfo;
 import com.university.examination.exception.CustomException;
 import com.university.examination.repository.UserInfoRepo;
 import com.university.examination.repository.UserRepo;
 import com.university.examination.security.JwtUtils;
 import com.university.examination.security.UserDetailsImpl;
+import com.university.examination.service.UserInfoService;
 import com.university.examination.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,25 +33,10 @@ import static com.university.examination.util.DataUtil.copyProperties;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
-    private final UserInfoRepo userInfoRepo;
+    private final UserInfoService userInfoService;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils tokenProvider;
-
-//    public UserRegisterSdo register(UserRegisterSdi req) {
-//
-//        if (userRepo.existsByEmail(req.getEmail())) {
-//            throw new CustomException(ERROR_EXIT_EMAIL);
-//        }
-//
-//        User user = copyProperties(req, User.class);
-//        String password = encoder.encode(req.getPassword());
-//        user.setPassword(password);
-//        userRepo.save(user);
-//        UserInfo userInfo = UserInfo.builder().userId(user.getId()).build();
-//        userInfoRepo.save(userInfo);
-//        return UserRegisterSdo.of(user.getId());
-//    }
 
     public User getUser(Long id) {
 
@@ -82,10 +71,11 @@ public class UserServiceImpl implements UserService {
         return new UserLoginSdo(jwt, userDetails.getId(), userDetails.getUsername());
     }
 
-    public UserDeleteSdo delete(Long userId) {
-        User user = this.getUser(userId);
+    public UserDeleteSdo delete(UserDeleteSdi req) {
+        User user = this.getUser(req.getId());
         user.setStatus(2);
         userRepo.save(user);
+        userInfoService.delete(UserInfoDeleteSdi.of(req.getId()));
         return UserDeleteSdo.of(Boolean.TRUE);
     }
 }

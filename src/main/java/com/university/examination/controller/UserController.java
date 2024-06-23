@@ -15,15 +15,15 @@ import com.university.examination.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@PreAuthorize("hasRole('ROLE_USER')")
 @RequestMapping("/api/v1/")
 public class UserController {
+
     private final UserInfoService userInfoService;
     private final UserService userService;
 
@@ -48,13 +48,13 @@ public class UserController {
         return ResponseEntity.ok(userInfoService.update(req));
     }
 
-    @PostMapping("user/self")
-    public ResponseEntity<UserInfoSelfSdo> self(UserInfoSelfSdi req) {
-        return ResponseEntity.ok(userInfoService.self(req));
+    @PostMapping("user/update-password")
+    public ResponseEntity<UpdatePasswordSdo> updatePassword (UpdatePasswordSdi req){
+        return ResponseEntity.ok(userService.updatePassword(req));
     }
 
-    @PostMapping("user/users")
-    public ResponseEntity<Page<UserInfoShortSelfSdo>> getUsers(PageInfo page) {
-        return ResponseEntity.ok(userInfoService.getUsers(page));
+    @GetMapping("user/my-self")
+    public ResponseEntity<UserInfoSelfSdo> getSelf(){
+        return ResponseEntity.ok(userInfoService.mySelf());
     }
 }

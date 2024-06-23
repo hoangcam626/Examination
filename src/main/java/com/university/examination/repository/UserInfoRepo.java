@@ -11,6 +11,5 @@ import java.util.List;
 
 public interface UserInfoRepo extends JpaRepository<UserInfo, Long>, UserInfoRepoCustom{
     UserInfo findByUserId(Long userId);
-//    @Query("select u.fullName, u.dateOfBirth, u.identifyNo from UserInfo u")
-//    Page<UserInfoShortSelfSdo> find(Pageable pageable);
+
 }

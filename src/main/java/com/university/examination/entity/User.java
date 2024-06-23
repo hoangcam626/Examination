@@ -1,5 +1,6 @@
 package com.university.examination.entity;
 
+import com.university.examination.util.constant.ERole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
@@ -35,5 +36,5 @@ public class User extends AbstractAudit{
     private Boolean checkPay;
 
     @Column(name = "role")
-    private String role;
+    private ERole role;
 }
