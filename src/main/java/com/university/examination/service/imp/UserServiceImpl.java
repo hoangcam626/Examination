@@ -68,14 +68,13 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwt = tokenProvider.generateJwtToken(authentication);
-        return new UserLoginSdo(jwt, userDetails.getId(), userDetails.getUsername());
+        return new UserLoginSdo(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getAuthorities().toString());
     }
 
     public UserDeleteSdo delete(UserDeleteSdi req) {
         User user = this.getUser(req.getId());
         user.setStatus(2);
         userRepo.save(user);
-        userInfoService.delete(UserInfoDeleteSdi.of(req.getId()));
         return UserDeleteSdo.of(Boolean.TRUE);
     }
 }

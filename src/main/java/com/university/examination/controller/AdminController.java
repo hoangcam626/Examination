@@ -1,10 +1,10 @@
 package com.university.examination.controller;
 
 import com.university.examination.dto.common.pagination.PageInfo;
-import com.university.examination.dto.user.sdi.UserDeleteSdi;
-import com.university.examination.dto.user.sdo.UserDeleteSdo;
+import com.university.examination.dto.userinfo.sdi.UserInfoDeleteSdi;
 import com.university.examination.dto.userinfo.sdi.UserInfoSearchSdi;
 import com.university.examination.dto.userinfo.sdi.UserInfoSelfSdi;
+import com.university.examination.dto.userinfo.sdo.UserInfoDeleteSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoSelfSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoShortSelfSdo;
 import com.university.examination.service.UserInfoService;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     private final UserInfoService userInfoService;
-    private final UserService userService;
 
     @PostMapping("/self-user")
     public ResponseEntity<UserInfoSelfSdo> self(UserInfoSelfSdi req) {
@@ -37,8 +36,8 @@ public class AdminController {
     }
 
     @PostMapping("/delete-user")
-    public ResponseEntity<UserDeleteSdo> delete(UserDeleteSdi req) {
-        return ResponseEntity.ok(userService.delete(req));
+    public ResponseEntity<UserInfoDeleteSdo> delete(UserInfoDeleteSdi req) {
+        return ResponseEntity.ok(userInfoService.delete(req));
     }
 
     @PostMapping("/all-users")
@@ -51,7 +50,7 @@ public class AdminController {
         return ResponseEntity.ok(userInfoService.search(req, pageInfo));
     }
 
-    @GetMapping("/download")
+    @GetMapping("/download-file")
     public ResponseEntity<Resource> getFile() {
         String filename = "VeMyThuat.xlsx";
         InputStreamResource file = new InputStreamResource(userInfoService.loadFileExcel());

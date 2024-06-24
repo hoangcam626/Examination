@@ -21,7 +21,7 @@ public class UserInfoRepoCustomImpl implements UserInfoRepoCustom {
     public Page<UserInfoShortSelfSdo> getUsers(PageInfo pageInfo) {
         Map<String, Object> queryParams = new HashMap<>();
         String sqlCountAll = "select count(1) ";
-        String sqlGetData = "select id, full_name, date_of_birth, identify_no ";
+        String sqlGetData = "select id, full_name, date_of_birth, identify_no, gender ";
         StringBuffer sqlConditional = new StringBuffer();
         sqlConditional.append("from user_info ");
         sqlConditional.append("where status <> 2 ");
@@ -34,7 +34,7 @@ public class UserInfoRepoCustomImpl implements UserInfoRepoCustom {
         String keyword = req.getKeyword();
         Map<String, Object> queryParams = new HashMap<>();
         String sqlCountAll = "select count(1) ";
-        String sqlGetData = "select id, full_name, date_of_birth, identify_no ";
+        String sqlGetData = "select id, full_name, date_of_birth, identify_no, gender ";
         StringBuffer sqlConditional = new StringBuffer();
         sqlConditional.append("from user_info ");
         sqlConditional.append("where status <> 2 ");

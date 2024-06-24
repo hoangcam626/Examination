@@ -3,7 +3,6 @@ package com.university.examination.service.imp;
 import com.university.examination.dto.common.pagination.PageInfo;
 import com.university.examination.dto.email.sdi.EmailTemplateSdi;
 import com.university.examination.util.constant.ERole;
-import com.university.examination.util.constant.EmailTemplate;
 import com.university.examination.dto.userinfo.sdi.*;
 import com.university.examination.dto.userinfo.sdo.*;
 import com.university.examination.entity.User;
@@ -19,7 +18,6 @@ import com.university.examination.util.excel.ExcelHelper;
 import com.university.examination.util.password.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +43,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final EmailService emailService;
     private final PasswordEncoder encoder;
 
-    public void create(UserInfoCreateSdi req) {
+    public UserInfoCreateSdo create(UserInfoCreateSdi req) {
 
         PasswordGenerator pw = new PasswordGenerator(8, 12);
         String password = pw.generatePassword();
@@ -64,6 +62,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userRepo.save(user);
         userInfoRepo.save(userInfo);
         emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), user.getPassword()));
+        return UserInfoCreateSdo.of(userInfo.getId());
     }
 
     public UserInfoUpdateSdo update(UserInfoUpdateSdi req) {
@@ -95,9 +94,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     public UserInfoDeleteSdo delete(UserInfoDeleteSdi req) {
+
         UserInfo userInfo = userInfoRepo.findByUserId(req.getUserId());
         userInfo.setStatus(2);
+
+        User user = userInfo.getUser();
+        user.setStatus(2);
+
         userInfoRepo.save(userInfo);
+        userRepo.save(user);
+
         return UserInfoDeleteSdo.of(Boolean.TRUE);
     }
 
@@ -125,20 +131,21 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     public UserInfo getUserInfo(Long id) {
-        return userInfoRepo.findById(id).orElseThrow(()-> new CustomException(ERROR_NOT_EXIT));
+        return userInfoRepo.findById(id).orElseThrow(() -> new CustomException(ERROR_NOT_EXIT));
     }
 
     public User getUser(Long id) {
         return userRepo.findById(id).orElseThrow(() -> new CustomException(ERROR_NOT_EXIT));
     }
 
-    public Page<UserInfoShortSelfSdo> search(UserInfoSearchSdi req, PageInfo pageInfo){
+    public Page<UserInfoShortSelfSdo> search(UserInfoSearchSdi req, PageInfo pageInfo) {
         return userInfoRepo.search(req, pageInfo);
     }
+
     public ByteArrayInputStream loadFileExcel() {
         List<UserInfoShortSelfSdo> users = userInfoRepo.getUsers();
 
-        ByteArrayInputStream in = ExcelHelper.tutorialsToExcel(users);
+        ByteArrayInputStream in = ExcelHelper.infoToExcel(users);
         return in;
     }
 

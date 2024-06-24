@@ -12,6 +12,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -75,13 +77,14 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async
     public void sendMailWithUserAccount(EmailTemplateSdi req) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String send = String.format(
                 "Chào bạn %s\n" +
                 "Bạn đã đăng ký thành công kỳ thi vẽ mỹ thuật do trường ĐHXD tổ chức. Sau đây là tài khoản đăng nhập của bạn:\n" +
                 "\tTên đăng nhập: <Mã cccd mà bạn đã đăng ký>\n" +
                 "\tMật khẩu: %s\n" +
                 "Hãy đăng nhập vào tài khoản để kiểm tra thông tin bạn đã đăng ký và nhận thông báo từ nhà trường tại trang web https://vmt.huce.edu.vn/.\n" +
-                "Phòng QLSV, trường ĐHXD thông báo.\n", req.getFullName(), req.getPassword() );
+                "Phòng QLSV, trường ĐHXD thông báo.\n", req.getFullName(), passwordEncoder.encode(req.getPassword()) );
         this.sendEmail(req.getEmailTo(), EmailTemplate.TITLE_SENT_USER_ACCOUNT, send);
     }
 

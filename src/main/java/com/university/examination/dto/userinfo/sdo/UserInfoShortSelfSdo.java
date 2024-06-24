@@ -13,6 +13,7 @@ public class UserInfoShortSelfSdo {
 //    private Long userId;
     private Long id;
     private String fullName;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private String identifyNo;
+    private int gender;
 }

@@ -38,3 +38,6 @@ auth:
 media:
   img_path: "${user.home}${file.separator}Downloads${file.separator}images"
   icon_path: "${user.home}${file.separator}Downloads${file.separator}images${file.separator}icons"
+account_admin:
+  username: admin
+  password: 12345678

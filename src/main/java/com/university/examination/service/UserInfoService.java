@@ -11,7 +11,7 @@ import java.io.ByteArrayInputStream;
 @Service
 public interface UserInfoService {
 
-    void create(UserInfoCreateSdi req);
+    UserInfoCreateSdo create(UserInfoCreateSdi req);
 
     UserInfoUpdateSdo update(UserInfoUpdateSdi req);
 

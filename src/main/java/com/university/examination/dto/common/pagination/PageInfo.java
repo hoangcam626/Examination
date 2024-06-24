@@ -15,6 +15,6 @@ public class PageInfo {
     }
 
     public Integer getPageSize() {
-        return isNullObject(pageSize) ? Integer.MAX_VALUE : pageSize;
+        return isNullObject(pageSize) ? 10 : pageSize;
     }
 }
