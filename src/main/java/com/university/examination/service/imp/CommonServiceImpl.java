@@ -48,22 +48,6 @@ public class CommonServiceImpl implements CommonService {
         return userDetails.getUsername();
     }
 
-//    public String getLang() {
-//        UserDetailsImpl userDetails = (UserDetailsImpl) userDetails();
-//        if (userDetails == null) {
-//            return "vi";
-//        }
-//        return userDetails.getLanguage();
-//    }
-
-//    public Long getSessionId() {
-//        UserDetailsImpl userDetails = (UserDetailsImpl) userDetails();
-//        if (userDetails == null) {
-//            return null;
-//        }
-//        return userDetails.getSessionId();
-//    }
-
     public Boolean existUser(Long userId) {
         return userRepository.findById(userId).isPresent();
     }

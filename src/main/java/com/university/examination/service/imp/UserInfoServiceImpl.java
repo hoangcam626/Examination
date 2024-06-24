@@ -61,7 +61,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         userRepo.save(user);
         userInfoRepo.save(userInfo);
-        emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), user.getPassword()));
+        emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), password));
         return UserInfoCreateSdo.of(userInfo.getId());
     }
 
@@ -145,8 +145,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public ByteArrayInputStream loadFileExcel() {
         List<UserInfoShortSelfSdo> users = userInfoRepo.getUsers();
 
-        ByteArrayInputStream in = ExcelHelper.infoToExcel(users);
-        return in;
+        return ExcelHelper.infoToExcel(users);
     }
 
 }

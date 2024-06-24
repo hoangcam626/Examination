@@ -8,7 +8,6 @@ import com.university.examination.dto.userinfo.sdo.UserInfoDeleteSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoSelfSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoShortSelfSdo;
 import com.university.examination.service.UserInfoService;
-import com.university.examination.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;

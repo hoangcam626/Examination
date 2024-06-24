@@ -68,7 +68,7 @@ public class PasswordGenerator {
             addRandomCharacters(pw, pwSet.getCharacters(), pwSet.getMinCharacters(), remainingIndexes, rand);
         }
         addRandomCharacters(pw, allCharacters, randomCharacterCount, remainingIndexes, rand);
-        return pw.toString();
+        return Arrays.toString(pw);
     }
 
     private static void addRandomCharacters(char[] pw, char[] characterSet,

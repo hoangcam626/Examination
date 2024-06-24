@@ -1,6 +1,5 @@
 package com.university.examination.dto.user.sdo;
 
-import com.university.examination.util.constant.ERole;
 import lombok.Data;
 
 @Data
