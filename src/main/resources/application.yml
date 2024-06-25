@@ -41,3 +41,8 @@ media:
 account_admin:
   username: admin
   password: 12345678
+vnp:
+  tmn_code: GBTFDVA4
+  hash_secret: 7GOO736HK4N05X8704BWLZATZV879TID
+ipv4:
+  address: 192.168.10.100
