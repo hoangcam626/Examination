@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor(staticName = "of")
-public class PaymentSdi {
+public class PaymentCreateSdi {
     private Long amount;
+    private String no;
 }

@@ -33,7 +33,7 @@ public class UserInfo extends AbstractAudit {
     @Column(name = "place_of_birth", nullable = false, columnDefinition = "VARCHAR(255) COMMENT 'Nơi sinh'")
     private String birthPlace;
 
-    @Column(name = "identify_no", nullable = false, unique = true, columnDefinition = "VARCHAR(255) COMMENT 'Số CCCD'")
+    @Column(name = "identify_no", nullable = false, columnDefinition = "VARCHAR(255) COMMENT 'Số CCCD'")
     private String identifyNo;
 
     @Column(name = "issue_date", columnDefinition = "DATE COMMENT 'Ngày cấp CCCD'")

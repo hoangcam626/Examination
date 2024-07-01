@@ -1,8 +1,8 @@
 package com.university.examination.service.imp;
 
 import com.university.examination.dto.common.pagination.PageInfo;
-import com.university.examination.dto.email.sdi.EmailTemplateSdi;
-import com.university.examination.util.constant.ERole;
+import com.university.examination.dto.payment.PaymentSdo;
+import com.university.examination.entity.Payment;
 import com.university.examination.dto.userinfo.sdi.*;
 import com.university.examination.dto.userinfo.sdo.*;
 import com.university.examination.entity.User;
@@ -11,14 +11,11 @@ import com.university.examination.exception.CustomException;
 import com.university.examination.repository.UserInfoRepo;
 import com.university.examination.repository.UserRepo;
 import com.university.examination.service.CommonService;
-import com.university.examination.service.EmailService;
 import com.university.examination.service.ImageService;
 import com.university.examination.service.UserInfoService;
 import com.university.examination.util.excel.ExcelHelper;
-import com.university.examination.util.password.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.university.examination.util.DataUtil.isNullObject;
 import static com.university.examination.util.constant.Error.*;
 import static com.university.examination.util.DataUtil.copyProperties;
 import static com.university.examination.util.DateTimeConvert.*;
@@ -40,28 +38,19 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final UserInfoRepo userInfoRepo;
     private final ImageService imageService;
     private final CommonService commonService;
-    private final EmailService emailService;
-    private final PasswordEncoder encoder;
 
     public UserInfoCreateSdo create(UserInfoCreateSdi req) {
 
-        PasswordGenerator pw = new PasswordGenerator(8, 12);
-        String password = pw.generatePassword();
-        User user = User.builder()
-                .username(req.getIdentifyNo())
-                .password(encoder.encode(password))
-                .role(ERole.ROLE_USER)
-                .build();
+        if (userInfoRepo.existsByIdentifyNo(req.getIdentifyNo())) {
+            throw new CustomException(ERROR_ALREADY_EXIT);
+        }
 
         UserInfo userInfo = copyProperties(req, UserInfo.class);
         userInfo.setImageId(imageService.uploadFile(req.getImage()));
         userInfo.setFrontImageId(imageService.uploadFile(req.getFrontImage()));
         userInfo.setBackImageId(imageService.uploadFile(req.getBackImage()));
-        userInfo.setUser(user);
 
-        userRepo.save(user);
         userInfoRepo.save(userInfo);
-        emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), password));
         return UserInfoCreateSdo.of(userInfo.getId());
     }
 
@@ -99,10 +88,13 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setStatus(2);
 
         User user = userInfo.getUser();
-        user.setStatus(2);
+        if (isNullObject(user)) {
+            user.setStatus(2);
+            userRepo.save(user);
+        }
 
         userInfoRepo.save(userInfo);
-        userRepo.save(user);
+
 
         return UserInfoDeleteSdo.of(Boolean.TRUE);
     }
@@ -111,7 +103,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         UserInfo userInfo = getUserInfo(req.getUserId());
         UserInfoSelfSdo res = copyProperties(userInfo, UserInfoSelfSdo.class);
-
+        Payment payment = userInfo.getUser().getPayment();
+        res.setPaymentSdo(copyProperties(payment, PaymentSdo.class));
         res.setCreatedAt(dateTimeToString(userInfo.getCreatedAt(), DATE_TIME_FORMAT));
         return res;
     }

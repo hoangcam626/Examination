@@ -1,9 +1,9 @@
 package com.university.examination.dto.userinfo.sdo;
 
+import com.university.examination.dto.payment.PaymentSdo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data
@@ -50,4 +50,6 @@ public class UserInfoSelfSdo {
     private Integer graduationYear;
 
     private String createdAt;
+
+    private PaymentSdo paymentSdo;
 }

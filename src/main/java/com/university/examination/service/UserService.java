@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
-
+    User create (UserRegisterSdi req);
     UserLoginSdo login (UserLoginSdi req);
 
     UpdatePasswordSdo updatePassword(UpdatePasswordSdi req);

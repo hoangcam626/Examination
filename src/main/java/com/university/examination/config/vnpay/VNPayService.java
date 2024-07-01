@@ -1,5 +1,7 @@
 package com.university.examination.config.vnpay;
 
+import com.university.examination.dto.payment.PaymentCreateSdi;
+import com.university.examination.dto.payment.PaymentCreateSdo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,21 +18,21 @@ public class VNPayService {
     private String serverPort;
     @Value("${ipv4.address}")
     private String ip;
-    public String createOrder(int total){
+    public PaymentCreateSdo createOrder(PaymentCreateSdi req){
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "order";
-        String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
+        String vnp_TxnRef = req.getNo();
         String vnp_IpAddr = ip;
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
-        String urlReturn = "http://"+ vnp_IpAddr + ":"+ serverPort +VNPayConfig.vnp_ReturnUrl;
+        String urlReturn = "http://localhost:"+ serverPort +VNPayConfig.vnp_ReturnUrl;
         String locate = "vn";
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(total*100));
+        vnp_Params.put("vnp_Amount", String.valueOf(req.getAmount()*100));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
@@ -79,7 +81,7 @@ public class VNPayService {
         String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
-        return paymentUrl;
+        return PaymentCreateSdo.of("OK", "Successfully", paymentUrl);
     }
 
     public int orderReturn(HttpServletRequest request){

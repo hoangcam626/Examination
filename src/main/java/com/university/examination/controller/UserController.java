@@ -1,12 +1,14 @@
 package com.university.examination.controller;
 
+import com.university.examination.config.vnpay.VNPayService;
+import com.university.examination.dto.payment.PaymentCreateSdi;
+import com.university.examination.dto.payment.PaymentCreateSdo;
 import com.university.examination.dto.user.sdi.UpdatePasswordSdi;
 import com.university.examination.dto.user.sdi.UserLoginSdi;
 import com.university.examination.dto.user.sdo.UpdatePasswordSdo;
 import com.university.examination.dto.user.sdo.UserLoginSdo;
 import com.university.examination.dto.userinfo.sdi.UserInfoCreateSdi;
 import com.university.examination.dto.userinfo.sdi.UserInfoUpdateSdi;
-import com.university.examination.dto.userinfo.sdo.UserInfoCreateSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoSelfSdo;
 import com.university.examination.dto.userinfo.sdo.UserInfoUpdateSdo;
 import com.university.examination.service.UserInfoService;
@@ -24,10 +26,12 @@ public class UserController {
 
     private final UserInfoService userInfoService;
     private final UserService userService;
+    private final VNPayService vnPayService;
 
     @PostMapping("auth/register")
-    public ResponseEntity<UserInfoCreateSdo> register(UserInfoCreateSdi req) {
-        return ResponseEntity.ok(userInfoService.create(req));
+    public ResponseEntity<PaymentCreateSdo> register(UserInfoCreateSdi req, Long amount) {
+        userInfoService.create(req);
+        return ResponseEntity.ok(vnPayService.createOrder(PaymentCreateSdi.of(amount, req.getIdentifyNo())));
     }
 
     @PostMapping("auth/login")
