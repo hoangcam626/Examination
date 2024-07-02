@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
                 .build();
         UserInfo userInfo = userInfoRepo.findByIdentifyNo(req.getUsername());
         user.setUserInfo(userInfo);
+        userInfo.setUser(user);
+        userInfoRepo.save(userInfo);
         userRepo.save(user);
         emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), password));
     return user;
