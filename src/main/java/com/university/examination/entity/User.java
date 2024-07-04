@@ -1,5 +1,6 @@
 package com.university.examination.entity;
 
+import com.university.examination.util.constant.ERole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
@@ -28,9 +29,9 @@ public class User extends AbstractAudit{
     @OneToOne(mappedBy = "user")
     private UserInfo userInfo;
 
-    @Column(name="check_info", columnDefinition = "")
-    private Boolean checkInfo;
+    @OneToOne(mappedBy = "user")
+    private Payment Payment;
 
-    @Column(name="check_pay")
-    private Boolean checkPay;
+    @Column(name = "role")
+    private ERole role;
 }

@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor(staticName = "of")
-public class UserRegisterSdi {
-    private String username;
+public class UserDeleteSdi {
+    private Long id;
 }

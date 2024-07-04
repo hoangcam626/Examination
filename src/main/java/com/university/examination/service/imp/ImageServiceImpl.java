@@ -28,7 +28,7 @@ import static com.university.examination.util.constant.Error.*;
 
 @Service
 @RequiredArgsConstructor
-public class ImageServiceImp implements ImageService {
+public class ImageServiceImpl implements ImageService {
     private final ImageRepo imageRepository;
 
     @Value("${media.img_path}")

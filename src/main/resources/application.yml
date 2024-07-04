@@ -31,10 +31,18 @@ spring:
             enable: true
 
 server:
-  port: 3000
+  port: 3001
 auth:
   jwt_secret : "========================SECRET========================="
   jwt_expiration : 604800000
 media:
   img_path: "${user.home}${file.separator}Downloads${file.separator}images"
   icon_path: "${user.home}${file.separator}Downloads${file.separator}images${file.separator}icons"
+account_admin:
+  username: admin
+  password: 12345678
+vnp:
+  tmn_code: GBTFDVA4
+  hash_secret: 7GOO736HK4N05X8704BWLZATZV879TID
+ipv4:
+  address: 192.168.10.100

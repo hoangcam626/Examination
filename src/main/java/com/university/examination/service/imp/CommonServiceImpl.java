@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CommonServiceImp implements CommonService {
+public class CommonServiceImpl implements CommonService {
 
     private final UserRepo userRepository;
 
@@ -47,22 +47,6 @@ public class CommonServiceImp implements CommonService {
 
         return userDetails.getUsername();
     }
-
-//    public String getLang() {
-//        UserDetailsImpl userDetails = (UserDetailsImpl) userDetails();
-//        if (userDetails == null) {
-//            return "vi";
-//        }
-//        return userDetails.getLanguage();
-//    }
-
-//    public Long getSessionId() {
-//        UserDetailsImpl userDetails = (UserDetailsImpl) userDetails();
-//        if (userDetails == null) {
-//            return null;
-//        }
-//        return userDetails.getSessionId();
-//    }
 
     public Boolean existUser(Long userId) {
         return userRepository.findById(userId).isPresent();

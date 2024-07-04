@@ -31,5 +31,12 @@ public class DateTimeConvert {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern);
         return df.format(time);
     }
+    public static LocalDateTime stringToDateTime(String dateTime, String pattern){
+        if (dateTime == null || isNullOrEmpty(pattern)) {
+            return null;
+        }
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern);
+        return LocalDateTime.parse(dateTime, df);
+    }
 
 }

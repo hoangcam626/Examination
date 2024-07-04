@@ -25,19 +25,21 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private Collection<? extends GrantedAuthority> authorities;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
     }
 
     public static UserDetailsImpl build(User user) {
 
-
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
-                user.getPassword()
+                user.getPassword(),
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()))
         );
     }
 
