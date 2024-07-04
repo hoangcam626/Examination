@@ -113,8 +113,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         Long loginId = commonService.getIdLogin();
         UserInfo userInfo = getUser(loginId).getUserInfo();
-
         UserInfoSelfSdo res = copyProperties(userInfo, UserInfoSelfSdo.class);
+        Payment payment = userInfo.getUser().getPayment();
+        res.setPaymentSdo(copyProperties(payment, PaymentSdo.class));
         res.setCreatedAt(dateTimeToString(userInfo.getCreatedAt(), DATE_TIME_FORMAT));
         return res;
     }

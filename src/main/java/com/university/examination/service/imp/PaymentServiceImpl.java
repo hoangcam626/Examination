@@ -31,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
         }else {
             Payment payment = DataUtil.copyProperties(req, Payment.class);
             LocalDateTime payDate = DateTimeConvert.stringToDateTime(req.getPayDate(), "yyyyMMddHHmmss");
+            payment.setPayDate(payDate);
             User user = userService.create(UserRegisterSdi.of(req.getTxnRef()));
             payment.setUser(user);
             paymentRepo.save(payment);

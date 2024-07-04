@@ -49,11 +49,10 @@ public class UserServiceImpl implements UserService {
                 .password(encoder.encode(password))
                 .role(ERole.ROLE_USER)
                 .build();
+        userRepo.save(user);
         UserInfo userInfo = userInfoRepo.findByIdentifyNo(req.getUsername());
-        user.setUserInfo(userInfo);
         userInfo.setUser(user);
         userInfoRepo.save(userInfo);
-        userRepo.save(user);
         emailService.sendMailWithUserAccount(EmailTemplateSdi.of(userInfo.getEmail(), userInfo.getFullName(), password));
     return user;
     }

@@ -40,7 +40,7 @@ public class UserInfoRepoCustomImpl implements UserInfoRepoCustom {
         sqlConditional.append("where status <> 2 ");
         if(!isNullObject(keyword)){
             queryParams.put("keyword", "%"+keyword+"%");
-            sqlConditional.append("and full_name like :keyword or identify_no like :keyword ");
+            sqlConditional.append("and (full_name like :keyword or identify_no like :keyword) ");
         }
 
         return queryRepo.queryPage(sqlCountAll, sqlGetData, sqlConditional.toString(), queryParams, UserInfoShortSelfSdo.class, pageInfo);
