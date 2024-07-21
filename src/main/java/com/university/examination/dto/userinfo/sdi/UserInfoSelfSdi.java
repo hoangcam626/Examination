@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(staticName = "of")
 public class UserInfoSelfSdi {
-    private Long userId;
+    private Long userInfoId;
 }

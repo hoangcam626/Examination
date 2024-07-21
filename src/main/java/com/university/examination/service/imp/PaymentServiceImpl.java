@@ -1,6 +1,7 @@
 package com.university.examination.service.imp;
 
 import com.university.examination.dto.payment.PaymentSaveSdi;
+import com.university.examination.dto.payment.PaymentSdo;
 import com.university.examination.dto.user.sdi.UserRegisterSdi;
 import com.university.examination.entity.Payment;
 import com.university.examination.entity.User;
@@ -36,5 +37,9 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setUser(user);
             paymentRepo.save(payment);
         }
+    }
+    public PaymentSdo getPayment(Long userId){
+        Payment payment = paymentRepo.findByUserInfoId(userId);
+        return DataUtil.copyProperties(payment, PaymentSdo.class);
     }
 }

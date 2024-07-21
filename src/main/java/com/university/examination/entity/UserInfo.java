@@ -54,7 +54,7 @@ public class UserInfo extends AbstractAudit {
     @Column(name = "phone_number", columnDefinition = "VARCHAR(255) COMMENT 'Số điện thoại di động'")
     private String phoneNumber;
 
-    @Column(name = "place_of_permanent", nullable = false, columnDefinition = "VARCHAR(255) COMMENT 'Hộ khẩu thường chú'")
+    @Column(name = "place_of_permanent", nullable = false, columnDefinition = "VARCHAR(255) COMMENT 'Hộ khẩu thường trú'")
     private String placeOfPermanent;
 
     @Column(name = "receiver_name", columnDefinition = "VARCHAR(255) COMMENT 'Tên người nhận tin'")
@@ -71,5 +71,8 @@ public class UserInfo extends AbstractAudit {
 
     @Column(name = "graduation_year", nullable = false, length = 4, columnDefinition = "INT COMMENT 'Năm tốt nghiệp THPT'")
     private Integer graduationYear;
+
+    @Column(name = "check_info")
+    private Integer check;
 
 }

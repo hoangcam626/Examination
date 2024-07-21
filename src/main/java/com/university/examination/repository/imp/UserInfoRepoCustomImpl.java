@@ -24,10 +24,30 @@ public class UserInfoRepoCustomImpl implements UserInfoRepoCustom {
         String sqlGetData = "select id, full_name, date_of_birth, identify_no, gender ";
         StringBuffer sqlConditional = new StringBuffer();
         sqlConditional.append("from user_info ");
-        sqlConditional.append("where status <> 2 ");
+        sqlConditional.append("where status <> 2 and check_info = 1 ");
 
         return queryRepo.queryPage(sqlCountAll, sqlGetData, sqlConditional.toString(), queryParams, UserInfoShortSelfSdo.class, pageInfo);
 
+    }
+    public Page<UserInfoShortSelfSdo> getUsersNoCheck(PageInfo pageInfo) {
+        Map<String, Object> queryParams = new HashMap<>();
+        String sqlCountAll = "select count(1) ";
+        String sqlGetData = "select id, full_name, date_of_birth, identify_no, gender ";
+        StringBuffer sqlConditional = new StringBuffer();
+        sqlConditional.append("from user_info ");
+        sqlConditional.append("where status <> 2 and check_info = 0 ");
+
+        return queryRepo.queryPage(sqlCountAll, sqlGetData, sqlConditional.toString(), queryParams, UserInfoShortSelfSdo.class, pageInfo);
+    }
+    public Page<UserInfoShortSelfSdo> getUsersFailCheck(PageInfo pageInfo) {
+        Map<String, Object> queryParams = new HashMap<>();
+        String sqlCountAll = "select count(1) ";
+        String sqlGetData = "select id, full_name, date_of_birth, identify_no, gender ";
+        StringBuffer sqlConditional = new StringBuffer();
+        sqlConditional.append("from user_info ");
+        sqlConditional.append("where status <> 2 and check_info = 2 ");
+
+        return queryRepo.queryPage(sqlCountAll, sqlGetData, sqlConditional.toString(), queryParams, UserInfoShortSelfSdo.class, pageInfo);
     }
 
     public Page<UserInfoShortSelfSdo> search(UserInfoSearchSdi req, PageInfo pageInfo) {
@@ -50,7 +70,7 @@ public class UserInfoRepoCustomImpl implements UserInfoRepoCustom {
         StringBuffer sqlConditional = new StringBuffer();
         sqlConditional.append("select id, full_name, date_of_birth, identify_no ");
         sqlConditional.append("from user_info ");
-        sqlConditional.append("where status <> 2 ");
+        sqlConditional.append("where status <> 2 and check_info = 1");
         Map<String, Object> queryParams = new HashMap<>();
         return queryRepo.queryList(sqlConditional.toString(), queryParams, UserInfoShortSelfSdo.class);
     }
