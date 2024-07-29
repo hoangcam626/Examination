@@ -37,12 +37,14 @@
 <div class="success-message">
     <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/4/4b/LOGO_DHXD.png" alt="Logo của bạn">
     <div class="success-message">
-        <div class="success-icon">&#10004;</div>
+<!--        <div class="success-icon">&#10004;</div>-->
         <h1 style="font-size: 30px">Thanh toán thành công!</h1>
+        <p style="font-size: 20px">Mã giao dịch: <span th:text="${transaction.transactionNo}"></span>.</p>
+        <p style="font-size: 20px">Tài khoản thực hiện giao dịch (Mã cccd): <span th:text="${transaction.txnRef}"></span>.</p>
+        <p style="font-size: 20px">Nội dung đơn hàng: <span th:text="${transaction.orderInfo}"></span>.</p>
+        <p style="font-size: 20px">Số tiền giao dịch: <span th:text="${transaction.amount}"></span>.</p>
+        <p style="font-size: 20px">Thời gian gia dịch: <span th:text="${transaction.payDate}"></span>.</p>
         <p style="font-size: 20px">Hãy kiểm tra hòm thư email của bạn. Chúng tôi đã gửi cho bạn tài khoản đăng nhập. Hãy đăng nhập và kiểm tra thông tin đăng ký dự thi của bạn..</p>
-        <p>Ma giao dich: <span th:text="${transaction.transactionNo}"></span>.</p>
-        <p>So tien giao dich: <span th:text="${transaction.amount}"></span>.</p>
-
     </div>
 </div>
 <footer >

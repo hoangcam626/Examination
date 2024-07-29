@@ -6,6 +6,7 @@ import com.university.examination.dto.user.sdi.UserRegisterSdi;
 import com.university.examination.entity.Payment;
 import com.university.examination.entity.User;
 import com.university.examination.entity.UserInfo;
+import com.university.examination.exception.CustomException;
 import com.university.examination.repository.PaymentRepo;
 import com.university.examination.repository.UserInfoRepo;
 import com.university.examination.service.PaymentService;
@@ -29,10 +30,13 @@ public class PaymentServiceImpl implements PaymentService {
         if(!req.getResponseCode().equals("00")){
             UserInfo userInfo = userInfoService.findByIdentifyNo(req.getTxnRef());
             userInfoService.delete(userInfo);
-        }else {
+        } else if (paymentRepo.existsByTransactionNo(req.getTransactionNo())) {
+            throw new CustomException("Error: exit transaction");
+        } else {
             Payment payment = DataUtil.copyProperties(req, Payment.class);
             LocalDateTime payDate = DateTimeConvert.stringToDateTime(req.getPayDate(), "yyyyMMddHHmmss");
             payment.setPayDate(payDate);
+            payment.setAmount(payment.getAmount()/100);
             User user = userService.create(UserRegisterSdi.of(req.getTxnRef()));
             payment.setUser(user);
             paymentRepo.save(payment);

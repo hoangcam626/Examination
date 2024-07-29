@@ -26,7 +26,7 @@ public class VNPController {
 
     @GetMapping("/return")
     public ModelAndView returnTransaction(
-            @RequestParam(value = "vnp_Amount") String amount,
+            @RequestParam(value = "vnp_Amount") Integer amount,
             @RequestParam(value = "vnp_BankCode") String bankCode,
             @RequestParam(value = "vnp_OrderInfo") String orderInfo,
             @RequestParam(value = "vnp_ResponseCode") String responseCode,
