@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface UserInfoRepoCustom {
     Page<UserInfoShortSelfSdo> getUsers(PageInfo pageInfo);
+    Page<UserInfoShortSelfSdo> getUsersNoCheck(PageInfo pageInfo);
+    Page<UserInfoShortSelfSdo> getUsersFailCheck(PageInfo pageInfo);
     Page<UserInfoShortSelfSdo> search(UserInfoSearchSdi req, PageInfo pageInfo);
 
     List<UserInfoShortSelfSdo> getUsers();

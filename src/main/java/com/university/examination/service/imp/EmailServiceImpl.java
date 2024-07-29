@@ -90,4 +90,5 @@ public class EmailServiceImpl implements EmailService {
     private MimeMessage getMimeMessage() {
         return emailSender.createMimeMessage();
     }
+
 }

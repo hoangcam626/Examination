@@ -31,5 +31,19 @@ public class AdminUserLoader implements CommandLineRunner {
                     .role(ERole.ROLE_ADMIN).build();
             userRepo.save(adminUser);
         }
+        if (userRepo.findByUsername("phongtaivu") == null) {
+            User paymentChecker = User.builder()
+                    .username("phongtaivu")
+                    .password(passwordEncoder.encode(password))
+                    .role(ERole.ROLE_PAYMENT_CHECKER).build();
+            userRepo.save(paymentChecker);
+        }
+        if (userRepo.findByUsername("phongquanlysv") == null) {
+            User moderator = User.builder()
+                    .username("phongquanlysv")
+                    .password(passwordEncoder.encode(password))
+                    .role(ERole.ROLE_MODERATOR).build();
+            userRepo.save(moderator);
+        }
     }
 }

@@ -11,6 +11,7 @@ import com.university.examination.exception.CustomException;
 import com.university.examination.repository.UserInfoRepo;
 import com.university.examination.repository.UserRepo;
 import com.university.examination.service.CommonService;
+import com.university.examination.service.EmailService;
 import com.university.examination.service.ImageService;
 import com.university.examination.service.UserInfoService;
 import com.university.examination.util.excel.ExcelHelper;
@@ -38,6 +39,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final UserInfoRepo userInfoRepo;
     private final ImageService imageService;
     private final CommonService commonService;
+    private final EmailService emailService;
 
     public UserInfoCreateSdo create(UserInfoCreateSdi req) {
 
@@ -49,7 +51,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setImageId(imageService.uploadFile(req.getImage()));
         userInfo.setFrontImageId(imageService.uploadFile(req.getFrontImage()));
         userInfo.setBackImageId(imageService.uploadFile(req.getBackImage()));
-
+        userInfo.setCheck(0);
         userInfoRepo.save(userInfo);
         return UserInfoCreateSdo.of(userInfo.getId());
     }
@@ -78,6 +80,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setBackImageId(imageService.uploadFile(req.getBackImage()));
         userInfo.setUpdatedAt(LocalDateTime.now());
 
+        if(userInfo.getCheck() == 2){
+            userInfo.setCheck(0);
+        }
+
         userInfoRepo.save(userInfo);
         return UserInfoUpdateSdo.of(Boolean.TRUE);
     }
@@ -101,7 +107,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     public UserInfoSelfSdo self(UserInfoSelfSdi req) {
 
-        UserInfo userInfo = getUserInfo(req.getUserId());
+        UserInfo userInfo = getUserInfo(req.getUserInfoId());
         UserInfoSelfSdo res = copyProperties(userInfo, UserInfoSelfSdo.class);
         Payment payment = userInfo.getUser().getPayment();
         res.setPaymentSdo(copyProperties(payment, PaymentSdo.class));
@@ -140,6 +146,55 @@ public class UserInfoServiceImpl implements UserInfoService {
         List<UserInfoShortSelfSdo> users = userInfoRepo.getUsers();
 
         return ExcelHelper.infoToExcel(users);
+    }
+
+    public void checkSuccess(UserInfoSelfSdi req) {
+        UserInfo userInfo = getUserInfo(req.getUserInfoId());
+        userInfo.setCheck(1);
+        userInfoRepo.save(userInfo);
+        String subject = "[DHXD] Thông tin đăng ký dự thi của bạn đã duyệt";
+        String body = "Chào em " + userInfo.getFullName() + "\n" +
+                "Phòng quản lý đã duyệt thông tin đăng ký dự thi của em và lưu vào danh sách các thí sinh dự thi. " +
+                "Hãy đợi thông báo tiếp theo từ nhà trường về kỳ thi.\n" +
+                "Đây là thông tin mà em đã đăng ký trên hệ thống:\n" +
+                "Họ tên: " + userInfo.getFullName() + "\n\t" +
+                "Giới tính: " + userInfo.getGender() + "\n\t" +
+                "Ngày sinh: " + userInfo.getDateOfBirth() + "\n\t" +
+                "Nơi sinh: " + userInfo.getBirthPlace() + "\n\t" +
+                "Số CCCD: " + userInfo.getIdentifyNo() + "\n\t" +
+                "Sđt: " + userInfo.getPhoneNumber() + "\n\t" +
+                "Hộ khẩu thường trú: " + userInfo.getPlaceOfPermanent() + "\n\t" +
+                "Năm tốt nghiệp: " + userInfo.getGraduationYear() + "\n\t" + "\n" +
+                "Người nhận tin\n\t" +
+                "Họ tên: " + userInfo.getReceiverName() + "\n\t" +
+                "Sđt nhận tin: " + userInfo.getReceiverPhone() + "\n\t" +
+                "Sđt bố mẹ: " + userInfo.getParentPhone() + "\n\t" +
+                "Địa chỉ nhận tin: " + userInfo.getReceiverAddress() + "\n" +
+                "Phòng QLSV, trường ĐHXD thông báo.\n";
+        emailService.sendEmail(userInfo.getEmail(), subject, body);
+
+    }
+
+    public void checkFail(UserInfoSelfSdi req) {
+        UserInfo userInfo = getUserInfo(req.getUserInfoId());
+        userInfo.setCheck(2);
+        userInfoRepo.save(userInfo);
+        String subject = "[DHXD] Thông tin đăng ký dự thi của bạn không được chấp nhận";
+        String body = "Chào em " + userInfo.getFullName() + "\n" +
+                "Phòng QLSV trường ĐHXD phát hiện thông tin đăng ký dự thi của em có sai sót.\n" +
+                "Hãy đăng nhập vào tài khoản đăng ký dự thi để kiểm tra và chỉnh sửa lại thông tin đăng ký.\n" +
+                "Chúng tôi sẽ kiểm tra lại sau khi bạn chỉnh sửa lại thông tin của mình.\n" +
+                "Phòng QLSV, trường ĐHXD thông báo.\n";
+        emailService.sendEmail(userInfo.getEmail(), subject, body);
+
+    }
+
+    public Page<UserInfoShortSelfSdo> getUserInfoNoCheck(PageInfo req) {
+        return userInfoRepo.getUsersNoCheck(req);
+    }
+
+    public Page<UserInfoShortSelfSdo> getUserInfoFailCheck(PageInfo req) {
+        return userInfoRepo.getUsersFailCheck(req);
     }
 
 }

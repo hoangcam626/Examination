@@ -26,4 +26,12 @@ public interface UserInfoService {
     Page<UserInfoShortSelfSdo> search(UserInfoSearchSdi req, PageInfo pageInfo);
 
     ByteArrayInputStream loadFileExcel();
+
+    void checkSuccess(UserInfoSelfSdi req);
+
+    void checkFail(UserInfoSelfSdi req);
+
+    Page<UserInfoShortSelfSdo> getUserInfoNoCheck(PageInfo req);
+
+    Page<UserInfoShortSelfSdo> getUserInfoFailCheck(PageInfo req);
 }

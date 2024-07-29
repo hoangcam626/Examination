@@ -21,7 +21,7 @@ public class Payment extends AbstractAudit {
     private User user;
 
     @Column
-    private String amount;
+    private Integer amount;
     @Column
     private String bankCode;
     @Column

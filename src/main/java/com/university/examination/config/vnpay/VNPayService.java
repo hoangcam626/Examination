@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -35,7 +36,7 @@ public class VNPayService {
         vnp_Params.put("vnp_Amount", String.valueOf(req.getAmount()*100));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan le phi thi nam "+ LocalDate.now().getYear());
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", locate);
         vnp_Params.put("vnp_ReturnUrl", urlReturn);

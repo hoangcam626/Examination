@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(staticName = "of")
 public class PaymentSaveSdi {
-    private String amount;
+    private Integer amount;
     private String bankCode;
     private String orderInfo;
     private String responseCode;

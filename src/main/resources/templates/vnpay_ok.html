@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .logo {
+            /*margin-top: 30px;*/
+            max-width: 200px; /* Điều chỉnh kích thước của logo theo nhu cầu */
+        }
+        .success-message {
+            text-align: center;
+            color: #0A5F92;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            color: #A7BFD7;
+        }
+    </style>
+</head>
+<body>
+<div class="success-message">
+    <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/4/4b/LOGO_DHXD.png" alt="Logo của bạn">
+    <div class="success-message">
+<!--        <div class="success-icon">&#10004;</div>-->
+        <h1 style="font-size: 30px">Thanh toán thành công!</h1>
+        <p style="font-size: 20px">Mã giao dịch: <span th:text="${transaction.transactionNo}"></span>.</p>
+        <p style="font-size: 20px">Tài khoản thực hiện giao dịch (Mã cccd): <span th:text="${transaction.txnRef}"></span>.</p>
+        <p style="font-size: 20px">Nội dung đơn hàng: <span th:text="${transaction.orderInfo}"></span>.</p>
+        <p style="font-size: 20px">Số tiền giao dịch: <span th:text="${transaction.amount}"></span>.</p>
+        <p style="font-size: 20px">Thời gian gia dịch: <span th:text="${transaction.payDate}"></span>.</p>
+        <p style="font-size: 20px">Hãy kiểm tra hòm thư email của bạn. Chúng tôi đã gửi cho bạn tài khoản đăng nhập. Hãy đăng nhập và kiểm tra thông tin đăng ký dự thi của bạn..</p>
+    </div>
+</div>
+<footer >
+    <div>&copy; 2023 Copyright: <a href="/static">huce.vn</a>
+    </div>
+</footer>
+</body>
+</html>

@@ -13,6 +13,7 @@ public class PaymentSdo {
     private String amount;
     private String bankCode;
     private String order;
+    private String orderInfo;
     private String transactionNo;
     private LocalDateTime payDate;
     private String txnRef;
